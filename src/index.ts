@@ -7,8 +7,8 @@ import { create, findByEmail, findById, findByUsername } from "./app/users";
 
 const init = async () => {
   const server = Hapi.server({
-    port: 8080,
-    host: "localhost",
+    port: process.env.PORT || 8080,
+    host: process.env.HOST,
     routes: {
       cors: true,
     },
