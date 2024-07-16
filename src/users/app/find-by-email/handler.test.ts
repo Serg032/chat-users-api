@@ -11,6 +11,7 @@ describe("When finding a user by email", () => {
     email: "email@email.com",
     password: "test",
     username: "test",
+    friends: [],
   };
   const handler = new Handler(repository);
   beforeAll(async () => {

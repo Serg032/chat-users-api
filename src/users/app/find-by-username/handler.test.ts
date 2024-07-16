@@ -11,6 +11,7 @@ describe("When finding a user by username", () => {
     email: "test",
     password: "test",
     username: "username",
+    friends: [],
   };
   beforeAll(async () => {
     await createHandler.handle(command);

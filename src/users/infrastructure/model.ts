@@ -27,6 +27,10 @@ export const UserModel = sequelize.define(
       allowNull: false,
       // allowNull defaults to true
     },
+    friends: {
+      type: DataTypes.ARRAY(DataTypes.JSON),
+      // allowNull defaults to true
+    },
   },
   {
     // Other model options go here
@@ -35,4 +39,9 @@ export const UserModel = sequelize.define(
 );
 
 // `sequelize.define` also returns the model
-console.log(UserModel === sequelize.models.User); // true
+console.log(
+  "AAAAAA",
+  UserModel === sequelize.models.User,
+  UserModel,
+  sequelize.models.User
+); // true

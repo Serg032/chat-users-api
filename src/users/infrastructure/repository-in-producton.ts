@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { CreateUserCommand, User } from "../domain";
+import { CreateUserCommand, SignInCommand, User } from "../domain";
 import { Repository } from "../domain/repository-interface";
 import { UserModel } from "./model";
 
@@ -50,5 +50,19 @@ export class RepositoryInProducction extends Repository {
     } catch (error: any) {
       throw new Error(error);
     }
+  }
+
+  async signIn(command: SignInCommand): Promise<boolean> {
+    const signIn = await this.userModel.findOne({
+      where: {
+        username: command.username,
+        password: command.password,
+      },
+    });
+    if (!signIn) {
+      return false;
+    }
+
+    return true;
   }
 }

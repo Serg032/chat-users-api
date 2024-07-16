@@ -2,8 +2,14 @@
 import "dotenv/config";
 import Hapi from "@hapi/hapi";
 import sequelize from "./connection-db";
-import { CreateUserCommand } from "./users/domain";
-import { create, findByEmail, findById, findByUsername } from "./app/users";
+import { CreateUserCommand, SignInCommand } from "./users/domain";
+import {
+  create,
+  findByEmail,
+  findById,
+  findByUsername,
+  signIn,
+} from "./app/users";
 
 const init = async () => {
   const server = Hapi.server({
@@ -59,10 +65,29 @@ const init = async () => {
     },
   });
 
+  server.route({
+    method: "POST",
+    path: "/user/signin",
+    handler: async (request, h) => {
+      try {
+        return h.response({
+          sigIn: await signIn(request.payload as SignInCommand),
+        });
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        return h.response({ error: "Internal Server Error" }).code(500);
+      }
+    },
+  });
+
   // Conectar a la base de datos
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
+    console.log(process.env.DB_USER);
+    console.log(process.env.DB_PASS);
+    console.log(process.env.DB);
+    console.log(process.env.HOST);
     await sequelize.sync(); // Sincroniza modelos con la base de datos
   } catch (error) {
     console.error("Unable to connect to the database:", error);

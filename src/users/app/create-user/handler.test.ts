@@ -9,6 +9,7 @@ describe("When creating a user", () => {
     username: "test",
     email: "test",
     password: "test",
+    friends: [],
   };
 
   beforeAll(async () => {

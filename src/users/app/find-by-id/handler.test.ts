@@ -12,6 +12,7 @@ describe("When asking for a user by id", () => {
       username: "test",
       email: "test",
       password: "test",
+      friends: [],
     });
   });
   it("should return the user", async () => {
