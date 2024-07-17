@@ -57,7 +57,7 @@ const init = async () => {
     path: "/user/{id}",
     handler: async (request, h) => {
       try {
-        return await findById(request.params.id);
+        return h.response({ response: await findById(request.params.id) });
       } catch (error) {
         console.error("Error fetching users:", error);
         return h.response({ error: "Internal Server Error" }).code(500);
