@@ -37,11 +37,3 @@ export const UserModel = sequelize.define(
     tableName: "users",
   }
 );
-
-// `sequelize.define` also returns the model
-console.log(
-  "AAAAAA",
-  UserModel === sequelize.models.User,
-  UserModel,
-  sequelize.models.User
-); // true

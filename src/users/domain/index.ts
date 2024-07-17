@@ -17,3 +17,9 @@ export interface Friend {
   username: string;
   email: string;
 }
+
+export interface SignInResponse {
+  access: boolean;
+  user?: User;
+  denied?: boolean;
+}

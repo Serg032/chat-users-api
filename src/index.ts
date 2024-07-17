@@ -71,7 +71,7 @@ const init = async () => {
     handler: async (request, h) => {
       try {
         return h.response({
-          sigIn: await signIn(request.payload as SignInCommand),
+          response: await signIn(request.payload as SignInCommand),
         });
       } catch (error) {
         console.error("Error fetching users:", error);

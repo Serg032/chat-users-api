@@ -22,7 +22,9 @@ describe("When sign in", () => {
       password: command.password,
     });
 
-    expect(signIn).toBeTruthy();
+    expect(signIn.access).toBeTruthy();
+    expect(signIn.denied).toBeFalsy();
+    expect(signIn.user).toBeDefined();
   });
   it("if command is not ok, should return false", async () => {
     const signIn = await handler.handle({
@@ -30,6 +32,8 @@ describe("When sign in", () => {
       password: "wrong",
     });
 
-    expect(signIn).toBeFalsy();
+    expect(signIn.denied).toBeTruthy();
+    expect(signIn.access).toBeFalsy();
+    expect(signIn.user).toBeUndefined();
   });
 });

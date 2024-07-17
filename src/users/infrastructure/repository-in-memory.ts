@@ -1,5 +1,10 @@
 import { randomUUID } from "crypto";
-import { CreateUserCommand, SignInCommand, User } from "../domain";
+import {
+  CreateUserCommand,
+  SignInCommand,
+  SignInResponse,
+  User,
+} from "../domain";
 import { Repository } from "../domain/repository-interface";
 
 export class RepositoryInMemory extends Repository {
@@ -26,16 +31,19 @@ export class RepositoryInMemory extends Repository {
     return Array.from(this.users).find((user) => user.email === email) || null;
   }
 
-  async signIn(command: SignInCommand): Promise<boolean> {
+  async signIn(command: SignInCommand): Promise<SignInResponse> {
     const user = Array.from(this.users).find(
       (user) =>
         user.username === command.username && user.password === command.password
     );
 
     if (!user) {
-      return false;
+      return { access: false, denied: true };
     }
 
-    return true;
+    return {
+      access: true,
+      user,
+    };
   }
 }
