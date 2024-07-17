@@ -57,7 +57,12 @@ const init = async () => {
     path: "/user/{id}",
     handler: async (request, h) => {
       try {
-        return h.response({ response: await findById(request.params.id) });
+        const signInRespose = await findById(request.params.id);
+        if (signInRespose) {
+          return h.response(signInRespose);
+        } else {
+          return h.response({ error: "User does not exist." });
+        }
       } catch (error) {
         console.error("Error fetching users:", error);
         return h.response({ error: "Internal Server Error" }).code(500);
@@ -70,9 +75,31 @@ const init = async () => {
     path: "/user/signin",
     handler: async (request, h) => {
       try {
-        return h.response({
-          response: await signIn(request.payload as SignInCommand),
-        });
+        const signInResponse = await signIn(request.payload as SignInCommand);
+        return h.response(signInResponse);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        return h.response({ error: "Internal Server Error" }).code(500);
+      }
+    },
+  });
+
+  server.route({
+    method: "GET",
+    path: "/user/by-username/{username}",
+    handler: async (request, h) => {
+      try {
+        const usernamePayload = request.params.username;
+        const findUserByUsernameResponse = await findByUsername(
+          usernamePayload
+        );
+        if (findUserByUsernameResponse) {
+          return h.response(findUserByUsernameResponse);
+        } else {
+          return h.response({
+            message: `User with ${usernamePayload} does not exist`,
+          });
+        }
       } catch (error) {
         console.error("Error fetching users:", error);
         return h.response({ error: "Internal Server Error" }).code(500);
@@ -84,10 +111,6 @@ const init = async () => {
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
-    console.log(process.env.DB_USER);
-    console.log(process.env.DB_PASS);
-    console.log(process.env.DB);
-    console.log(process.env.HOST);
     await sequelize.sync(); // Sincroniza modelos con la base de datos
   } catch (error) {
     console.error("Unable to connect to the database:", error);
