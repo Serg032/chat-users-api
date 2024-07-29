@@ -4,7 +4,7 @@ import { Repository } from "../domain/repository-interface";
 
 export class RepositoryInMemory extends Repository {
   friendRequests: Set<FriendRequest> = new Set<FriendRequest>();
-  create(command: CreateFriendRequestCommand): FriendRequest {
+  async create(command: CreateFriendRequestCommand): Promise<FriendRequest> {
     const friendRequest: FriendRequest = {
       id: randomUUID(),
       senderId: command.senderId,
@@ -17,20 +17,20 @@ export class RepositoryInMemory extends Repository {
     return friendRequest;
   }
 
-  getAllNewFriendRequestsByUserId(id: string): FriendRequest[] {
+  async getAllNewFriendRequestsByUserId(id: string): Promise<FriendRequest[]> {
     return Array.from(this.friendRequests).filter(
       (friendRequest) =>
         friendRequest.possibleFriendId === id && friendRequest.accepted === null
     );
   }
 
-  findById(id: string): FriendRequest | undefined {
+  async findById(id: string): Promise<FriendRequest | undefined> {
     return Array.from(this.friendRequests).find(
       (friendRequest) => friendRequest.id === id
     );
   }
 
-  accept(id: string): FriendRequest | null {
+  async accept(id: string): Promise<FriendRequest | null> {
     // Convert the Set to an array
     let requests: FriendRequest[] = Array.from(this.friendRequests);
 

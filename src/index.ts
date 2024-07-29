@@ -10,6 +10,8 @@ import {
   findByUsername,
   signIn,
 } from "./app/users";
+import { create as createRequest } from "./app/friend-request";
+import { CreateFriendRequestCommand } from "./friend-requests/domain";
 
 const init = async () => {
   const server = Hapi.server({
@@ -107,11 +109,27 @@ const init = async () => {
     },
   });
 
-  // server.route({
-  //   method: 'POST',
-  //   path: '/friend-request',
-  //   handler:
-  // })
+  server.route({
+    method: "POST",
+    path: "/friend-request",
+    handler: async (request, h) => {
+      try {
+        console.log("aaaaaaaa");
+        const command: CreateFriendRequestCommand =
+          request.payload as CreateFriendRequestCommand;
+
+        const requestCreated = await createRequest(command);
+
+        return h
+          .response({
+            request: requestCreated,
+          })
+          .code(201);
+      } catch (error: any) {
+        throw new Error(error);
+      }
+    },
+  });
 
   // Conectar a la base de datos
   try {
