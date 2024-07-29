@@ -3,7 +3,7 @@ export interface FriendRequest {
   senderId: string;
   possibleFriendId: string;
   message: string;
-  accepted: boolean | undefined;
+  accepted: boolean | null;
 }
 export type CreateFriendRequestCommand = Omit<
   FriendRequest,

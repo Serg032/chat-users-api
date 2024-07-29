@@ -32,7 +32,7 @@ describe("When getting all the friend requests of a user", () => {
       message: "message 3",
     });
   });
-  it("should return the new requests (accepted: undefined)", () => {
+  it("should return the new requests (accepted: null)", () => {
     const newFriendRequests = handler.handle("1");
     expect(newFriendRequests.length).toBe(3);
     newFriendRequests.forEach((newFriendRequest) => {

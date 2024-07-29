@@ -10,7 +10,7 @@ export class RepositoryInMemory extends Repository {
       senderId: command.senderId,
       possibleFriendId: command.possibleFriendId,
       message: command.message,
-      accepted: undefined,
+      accepted: null,
     };
     this.friendRequests.add(friendRequest);
 
@@ -20,8 +20,7 @@ export class RepositoryInMemory extends Repository {
   getAllNewFriendRequestsByUserId(id: string): FriendRequest[] {
     return Array.from(this.friendRequests).filter(
       (friendRequest) =>
-        friendRequest.possibleFriendId === id &&
-        friendRequest.accepted === undefined
+        friendRequest.possibleFriendId === id && friendRequest.accepted === null
     );
   }
 
@@ -32,19 +31,27 @@ export class RepositoryInMemory extends Repository {
   }
 
   accept(id: string): FriendRequest | null {
+    // Convert the Set to an array
     let requests: FriendRequest[] = Array.from(this.friendRequests);
-    let request = requests.find((request) => request.id === id);
-    if (request) {
-      request = {
-        ...request,
+
+    // Find the request by id
+    let requestIndex = requests.findIndex((request) => request.id === id);
+
+    if (requestIndex !== -1) {
+      // Modify the found request
+      requests[requestIndex] = {
+        ...requests[requestIndex],
         accepted: true,
       };
-      requests.push(request);
+
+      // Convert the array back to a Set
       this.friendRequests = new Set(requests);
 
-      return request;
+      // Return the modified request
+      return requests[requestIndex];
     }
 
+    // Return null if the request was not found
     return null;
   }
 }

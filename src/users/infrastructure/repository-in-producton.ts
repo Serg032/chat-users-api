@@ -3,6 +3,7 @@ import {
   CreateUserCommand,
   SignInCommand,
   SignInResponse,
+  UpdateCommand,
   User,
 } from "../domain";
 import { Repository } from "../domain/repository-interface";
@@ -75,5 +76,8 @@ export class RepositoryInProducction extends Repository {
       access: true,
       user: signIn.toJSON(),
     };
+  }
+  update(id: string, command: UpdateCommand): User | null {
+    return null;
   }
 }

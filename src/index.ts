@@ -107,6 +107,12 @@ const init = async () => {
     },
   });
 
+  // server.route({
+  //   method: 'POST',
+  //   path: '/friend-request',
+  //   handler:
+  // })
+
   // Conectar a la base de datos
   try {
     await sequelize.authenticate();

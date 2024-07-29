@@ -3,7 +3,7 @@ export interface User {
   username: string;
   email: string;
   password: string;
-  friends?: Friend[];
+  friends: Friend[];
 }
 export type CreateUserCommand = Omit<User, "id">;
 
@@ -22,4 +22,11 @@ export interface SignInResponse {
   access: boolean;
   user?: User;
   denied?: boolean;
+}
+
+export interface UpdateCommand {
+  username?: string;
+  email?: string;
+  password?: string;
+  friends?: Friend[];
 }
