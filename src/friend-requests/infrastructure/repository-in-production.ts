@@ -17,7 +17,7 @@ export class RepositoryInProducction extends Repository {
 
       const friendRequestCreated = await newFriendRequestInstance.save();
 
-      return friendRequestCreated.toJSON();
+      return friendRequestCreated.get({ plain: true });
     } catch (error: any) {
       throw new Error(error);
     }
