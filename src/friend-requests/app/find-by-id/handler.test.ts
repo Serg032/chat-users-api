@@ -12,14 +12,14 @@ describe("When finding a request by id", () => {
     createHandler.handle({
       senderId,
       message: "message",
-      possibleFriendId: "2",
+      recieverId: "2",
     });
     id = Array.from(repository.friendRequests).find(
       (request) => request.senderId === senderId
     )?.id!;
   });
-  it("should return the request", () => {
-    const request = handler.handle(id);
+  it("should return the request", async () => {
+    const request = await handler.handle(id);
     expect(request).toBeTruthy();
     expect(request?.id).toBe(id);
   });

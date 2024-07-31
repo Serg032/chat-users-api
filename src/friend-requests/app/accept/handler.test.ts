@@ -9,7 +9,7 @@ describe("When accepting a request", () => {
       id: "1",
       accepted: null,
       message: "message",
-      possibleFriendId: "1",
+      recieverId: "1",
       senderId: "2",
     });
   });

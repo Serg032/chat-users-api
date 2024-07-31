@@ -114,7 +114,6 @@ const init = async () => {
     path: "/friend-request",
     handler: async (request, h) => {
       try {
-        console.log("aaaaaaaa");
         const command: CreateFriendRequestCommand =
           request.payload as CreateFriendRequestCommand;
 

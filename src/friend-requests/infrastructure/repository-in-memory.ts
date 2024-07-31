@@ -8,20 +8,13 @@ export class RepositoryInMemory extends Repository {
     const friendRequest: FriendRequest = {
       id: randomUUID(),
       senderId: command.senderId,
-      possibleFriendId: command.possibleFriendId,
+      recieverId: command.recieverId,
       message: command.message,
       accepted: null,
     };
     this.friendRequests.add(friendRequest);
 
     return friendRequest;
-  }
-
-  async getAllNewFriendRequestsByUserId(id: string): Promise<FriendRequest[]> {
-    return Array.from(this.friendRequests).filter(
-      (friendRequest) =>
-        friendRequest.possibleFriendId === id && friendRequest.accepted === null
-    );
   }
 
   async findById(id: string): Promise<FriendRequest | undefined> {
@@ -53,5 +46,13 @@ export class RepositoryInMemory extends Repository {
 
     // Return null if the request was not found
     return null;
+  }
+
+  async getAllNewByRecieverId(recieverId: string): Promise<FriendRequest[]> {
+    return Array.from(this.friendRequests).filter(
+      (friendRequest) =>
+        friendRequest.recieverId === recieverId &&
+        friendRequest.accepted === null
+    );
   }
 }

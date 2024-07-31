@@ -1,11 +1,8 @@
 export interface FriendRequest {
   id: string;
   senderId: string;
-  possibleFriendId: string;
+  recieverId: string;
   message: string;
   accepted: boolean | null;
 }
-export type CreateFriendRequestCommand = Omit<
-  FriendRequest,
-  "id" | "accepted" | "declined"
->;
+export type CreateFriendRequestCommand = Omit<FriendRequest, "id" | "accepted">;

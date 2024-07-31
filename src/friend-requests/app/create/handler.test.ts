@@ -7,7 +7,7 @@ describe("When creating a friend request", () => {
   beforeAll(() => {
     handler.handle({
       senderId: "1",
-      possibleFriendId: "2",
+      recieverId: "2",
       message: "message",
     });
   });
