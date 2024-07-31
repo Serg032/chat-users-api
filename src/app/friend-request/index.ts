@@ -15,3 +15,9 @@ export async function create(
 ): Promise<FriendRequest> {
   return await createHandler.handle(command);
 }
+
+export async function findAllNewRequestsByRecieverId(
+  recieverId: string
+): Promise<FriendRequest[]> {
+  return await repository.getAllNewByRecieverId(recieverId);
+}

@@ -10,7 +10,10 @@ import {
   findByUsername,
   signIn,
 } from "./app/users";
-import { create as createRequest } from "./app/friend-request";
+import {
+  create as createRequest,
+  findAllNewRequestsByRecieverId,
+} from "./app/friend-request";
 import { CreateFriendRequestCommand } from "./friend-requests/domain";
 
 const init = async () => {
@@ -124,6 +127,30 @@ const init = async () => {
             request: requestCreated,
           })
           .code(201);
+      } catch (error: any) {
+        throw new Error(error);
+      }
+    },
+  });
+
+  server.route({
+    method: "GET",
+    path: "/friend-request/new/{recieverId}",
+    handler: async (request, h) => {
+      try {
+        const recieverId = request.params.recieverId as string;
+        if (!recieverId) {
+          return h.response({
+            error: "Reciever id not found in the params",
+          });
+        }
+        const newRequests = await findAllNewRequestsByRecieverId(recieverId);
+
+        return h
+          .response({
+            newrequests: newRequests,
+          })
+          .code(200);
       } catch (error: any) {
         throw new Error(error);
       }

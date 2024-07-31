@@ -37,21 +37,6 @@ export class RepositoryInProducction extends Repository {
     } catch (error) {}
   }
 
-  async getAllNewFriendRequestsByUserId(id: string): Promise<FriendRequest[]> {
-    try {
-      const friendRequests = await this.model.findAll({
-        where: {
-          id,
-          accepted: null,
-        },
-      });
-
-      return friendRequests.map((request) => request.get({ plain: true }));
-    } catch (error: any) {
-      throw new Error(error);
-    }
-  }
-
   async accept(id: string): Promise<FriendRequest | null> {
     try {
       const requestModel = await this.model.findByPk(id);
@@ -72,5 +57,16 @@ export class RepositoryInProducction extends Repository {
     } catch (error: any) {
       throw new Error(error);
     }
+  }
+
+  async getAllNewByRecieverId(recieverId: string): Promise<FriendRequest[]> {
+    const requests = await this.model.findAll({
+      where: {
+        recieverId,
+        accepted: null,
+      },
+    });
+
+    return requests.map((request) => request.get({ plain: true }));
   }
 }

@@ -1,12 +1,6 @@
 import { CreateFriendRequestCommand } from "../../domain";
 import { RepositoryInMemory } from "../../infrastructure/repository-in-memory";
-
-export class Handler {
-  constructor(private repository: RepositoryInMemory) {}
-  async handle(recieverId: string): Promise<CreateFriendRequestCommand[]> {
-    return this.repository.getAllNewByRecieverId(recieverId);
-  }
-}
+import { Handler } from "./handler";
 
 describe("When getting all news friend requests by reciever id", () => {
   const repository = new RepositoryInMemory();
