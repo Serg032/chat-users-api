@@ -14,7 +14,7 @@ export const FriendRequestModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    possibleFriendId: {
+    recieverId: {
       type: DataTypes.STRING,
       allowNull: false,
     },

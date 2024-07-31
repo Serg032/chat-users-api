@@ -1,4 +1,5 @@
 import { Handler } from "../../friend-requests/app/create/handler";
+import { Handler as GetNewFriendRequestByRecieverIdHandler } from "../../friend-requests/app/get-new-by-reciever-id/handler";
 import {
   CreateFriendRequestCommand,
   FriendRequest,
@@ -9,6 +10,8 @@ import { RepositoryInProducction } from "../../friend-requests/infrastructure/re
 const model = FriendRequestModel;
 const repository = new RepositoryInProducction(model);
 const createHandler = new Handler(repository);
+const getNewFriendRequestByRecieverIdHandler =
+  new GetNewFriendRequestByRecieverIdHandler(repository);
 
 export async function create(
   command: CreateFriendRequestCommand
@@ -19,5 +22,17 @@ export async function create(
 export async function findAllNewRequestsByRecieverId(
   recieverId: string
 ): Promise<FriendRequest[]> {
-  return await repository.getAllNewByRecieverId(recieverId);
+  try {
+    console.log(
+      `Attempting to retrieve requests for recieverId: ${recieverId}`
+    );
+    const requests = await getNewFriendRequestByRecieverIdHandler.handle(
+      recieverId
+    );
+    console.log(`Retrieved requests: ${JSON.stringify(requests)}`);
+    return requests;
+  } catch (error) {
+    console.error("Error in findAllNewRequestsByRecieverId:", error);
+    throw new Error("Failed to retrieve new friend requests");
+  }
 }

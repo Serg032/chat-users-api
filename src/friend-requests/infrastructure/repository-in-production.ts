@@ -60,13 +60,22 @@ export class RepositoryInProducction extends Repository {
   }
 
   async getAllNewByRecieverId(recieverId: string): Promise<FriendRequest[]> {
-    const requests = await this.model.findAll({
-      where: {
-        recieverId,
-        accepted: null,
-      },
-    });
+    try {
+      const requests = await this.model.findAll({
+        where: {
+          recieverId,
+          accepted: null,
+        },
+      });
 
-    return requests.map((request) => request.get({ plain: true }));
+      if (requests) {
+        return requests.map((request) => request.get({ plain: true }));
+      }
+
+      return [];
+    } catch (error) {
+      console.error("Error in getAllNewByRecieverId:", error);
+      throw new Error("Database query failed");
+    }
   }
 }

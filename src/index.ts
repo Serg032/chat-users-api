@@ -138,21 +138,30 @@ const init = async () => {
     path: "/friend-request/new/{recieverId}",
     handler: async (request, h) => {
       try {
-        const recieverId = request.params.recieverId as string;
+        const recieverId = request.params.recieverId;
         if (!recieverId) {
-          return h.response({
-            error: "Reciever id not found in the params",
-          });
+          return h
+            .response({
+              error: "Reciever id not found in the params",
+            })
+            .code(400);
         }
         const newRequests = await findAllNewRequestsByRecieverId(recieverId);
 
         return h
           .response({
             newrequests: newRequests,
+            id: recieverId,
           })
           .code(200);
       } catch (error: any) {
-        throw new Error(error);
+        console.error("Error occurred:", error);
+        return h
+          .response({
+            error: "Internal Server Error",
+            message: error.message,
+          })
+          .code(500);
       }
     },
   });
